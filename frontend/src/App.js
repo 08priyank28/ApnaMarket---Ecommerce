@@ -10,16 +10,16 @@ import Products from "./component/Product/Products.js"
 import Search from './component/Search/Search'
 import LoginSignUp from './component/User/LoginSignUp';
 import store from "./store"
-import { loadUser, updateProfile } from './actions/userAction';
+import { loadUser } from './actions/userAction';
 import UserOptions from "./component/layout/Header/UserOptions";
 import { useSelector } from "react-redux";
 import Profile from "./component/User/Profile";
 import ProtectedRoute from "./component/Route/ProtectedRoute";
 import UpdateProfile from "./component/User/UpdateProfile";
-// import UpdatePassword from "./component/User/UpdatePassword";
-// import ForgotPassword from "./component/User/ForgotPassword";
-// import ResetPassword from "./component/User/ResetPassword";
-// import Cart from "./component/Cart/Cart";
+import UpdatePassword from "./component/User/UpdatePassword.js";
+import ForgotPassword from "./component/User/ForgotPassword.js";
+import ResetPassword from "./component/User/ResetPassword.js";
+import Cart from "./component/Cart/Cart";
 // import Shipping from "./component/Cart/Shipping";
 // import ConfirmOrder from "./component/Cart/ConfirmOrder";
 // import axios from "axios";
@@ -63,8 +63,20 @@ function App() {
           <Route exact path='/products' element={<Products />} />
           <Route exact path='/products/:keyword' element={<Products />} />
           <Route exact path='/product/:id' element={<ProductDetails />} />
+
+
           <Route exact path='/account' element={<ProtectedRoute component={Profile} />} />
           <Route exact path='/me/update' element={<ProtectedRoute component={UpdateProfile} />} />
+
+
+          <Route exact path='/password/update' element={<ProtectedRoute component={UpdatePassword} />} />
+          <Route exact path='/password/forgot' element={<ForgotPassword />} />
+          <Route exact path='/password/reset/:token' element={<ResetPassword />} />
+
+          <Route exact path='/cart' element={<Cart />} />
+
+
+
           <Route exact path='/' element={<Home />} />
         </Routes>
         <Footer />

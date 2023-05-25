@@ -15,7 +15,8 @@ import {
     DialogTitle,
     Button,
 } from "@material-ui/core";
-import { NEW_REVIEW_RESET } from "../../constants/productConstants";
+import { addItemsToCart } from "../../actions/cartAction";
+// import { NEW_REVIEW_RESET } from "../../constants/productConstants";
 import { useAlert } from "react-alert"
 // import { Rating } from "@material-ui/lab";
 
@@ -59,7 +60,7 @@ const ProductDetails = () => {
     };
 
     const addToCartHandler = () => {
-        //     dispatch(addItemsToCart(id, quantity));
+        dispatch(addItemsToCart(id, quantity));
         alert.success("Item Added To Cart");
     };
 
