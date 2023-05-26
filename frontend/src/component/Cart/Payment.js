@@ -18,10 +18,11 @@ import CreditCardIcon from "@material-ui/icons/CreditCard";
 import EventIcon from "@material-ui/icons/Event";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { createOrder, clearErrors } from "../../actions/orderAction";
+import { useNavigate } from "react-router-dom"
 
-const Payment = ({ history }) => {
+const Payment = () => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
-
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const alert = useAlert();
   const stripe = useStripe();
@@ -56,6 +57,7 @@ const Payment = ({ history }) => {
           "Content-Type": "application/json",
         },
       };
+
       const { data } = await axios.post(
         "/api/v1/payment/process",
         paymentData,
@@ -96,7 +98,8 @@ const Payment = ({ history }) => {
 
           dispatch(createOrder(order));
 
-          history.push("/success");
+
+          navigate("/success");
         } else {
           alert.error("There's some issue while processing payment ");
         }
@@ -136,7 +139,8 @@ const Payment = ({ history }) => {
 
           <input
             type="submit"
-            value={`Pay - ₹${orderInfo && orderInfo.totalPrice}`}
+            value="Proceed To Pay"
+            // value={`Pay - ₹${orderInfo && orderInfo.totalPrice}`}
             ref={payBtn}
             className="paymentFormBtn"
           />

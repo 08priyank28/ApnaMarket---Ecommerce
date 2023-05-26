@@ -26,6 +26,7 @@
     "nodemailer": "^6.9.2",
     "react-icons": "^4.8.0",
     "react-js-pagination": "^3.0.3",
+    "stripe": "^12.7.0",
     "validator": "^13.9.0"
   }
 }

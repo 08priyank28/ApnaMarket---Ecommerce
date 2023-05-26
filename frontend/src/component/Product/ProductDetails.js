@@ -1,13 +1,17 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import Loader from "../layout/Loader/Loader"
-import './ProductDetails.css'
-import Carousel from "react-material-ui-carousel"
-import MetaData from '../layout/MetaData'
-import { useSelector, useDispatch } from "react-redux"
-import { clearErrors, getProductDetails } from "../../actions/productAction"
-import { useParams } from 'react-router-dom';
-import ReactStars from "react-rating-stars-component"
+import React, { Fragment, useEffect, useState } from "react";
+import Carousel from "react-material-ui-carousel";
+import "./ProductDetails.css";
+import { useSelector, useDispatch } from "react-redux";
+import {
+    clearErrors,
+    getProductDetails,
+    newReview,
+} from "../../actions/productAction";
 import ReviewCard from "./ReviewCard.js";
+import Loader from "../layout/Loader/Loader";
+import { useAlert } from "react-alert";
+import MetaData from "../layout/MetaData";
+import { addItemsToCart } from "../../actions/cartAction";
 import {
     Dialog,
     DialogActions,
@@ -15,22 +19,22 @@ import {
     DialogTitle,
     Button,
 } from "@material-ui/core";
-import { addItemsToCart } from "../../actions/cartAction";
-// import { NEW_REVIEW_RESET } from "../../constants/productConstants";
-import { useAlert } from "react-alert"
-// import { Rating } from "@material-ui/lab";
+import { Rating } from "@material-ui/lab";
+import { NEW_REVIEW_RESET } from "../../constants/productConstants";
+import { useParams } from "react-router-dom";
 
-const ProductDetails = () => {
-
-
+const ProductDetails = ({ match }) => {
+    const dispatch = useDispatch();
+    const alert = useAlert();
     const { id } = useParams()
-    const dispatch = useDispatch()
-    const alert = useAlert()
 
     const { product, loading, error } = useSelector(
         (state) => state.productDetails
     );
 
+    const { success, error: reviewError } = useSelector(
+        (state) => state.newReview
+    );
 
     const options = {
         size: "large",
@@ -43,7 +47,6 @@ const ProductDetails = () => {
     const [open, setOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
-
 
     const increaseQuantity = () => {
         if (product.Stock <= quantity) return;
@@ -75,17 +78,28 @@ const ProductDetails = () => {
         myForm.set("comment", comment);
         myForm.set("productId", id);
 
-        // dispatch(newReview(myForm));
+        dispatch(newReview(myForm));
 
         setOpen(false);
     };
+
     useEffect(() => {
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
         }
-        dispatch(getProductDetails(id))
-    }, [dispatch, id, alert, error]);
+
+        if (reviewError) {
+            alert.error(reviewError);
+            dispatch(clearErrors());
+        }
+
+        if (success) {
+            alert.success("Review Submitted Successfully");
+            dispatch({ type: NEW_REVIEW_RESET });
+        }
+        dispatch(getProductDetails(id));
+    }, [dispatch, id, error, alert, reviewError, success]);
 
     return (
         <Fragment>
@@ -93,7 +107,7 @@ const ProductDetails = () => {
                 <Loader />
             ) : (
                 <Fragment>
-                    <MetaData title={`${product.name} -- Apna Market`} />
+                    <MetaData title={`${product.name} -- ECOMMERCE`} />
                     <div className="ProductDetails">
                         <div>
                             <Carousel>
@@ -115,7 +129,7 @@ const ProductDetails = () => {
                                 <p>Product # {product._id}</p>
                             </div>
                             <div className="detailsBlock-2">
-                                <ReactStars {...options} />
+                                <Rating {...options} />
                                 <span className="detailsBlock-2-span">
                                     {" "}
                                     ({product.numOfReviews} Reviews)
@@ -164,7 +178,7 @@ const ProductDetails = () => {
                     >
                         <DialogTitle>Submit Review</DialogTitle>
                         <DialogContent className="submitDialog">
-                            <ReactStars
+                            <Rating
                                 onChange={(e) => setRating(e.target.value)}
                                 value={rating}
                                 size="large"
