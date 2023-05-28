@@ -15,10 +15,13 @@ import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import { Button } from "@material-ui/core";
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 import "./processOrder.css";
+import { useParams } from "react-router-dom";
 
-const ProcessOrder = ({ history, match }) => {
+const ProcessOrder = () => {
+
   const { order, error, loading } = useSelector((state) => state.orderDetails);
   const { error: updateError, isUpdated } = useSelector((state) => state.order);
+  const { id } = useParams()
 
   const updateOrderSubmitHandler = (e) => {
     e.preventDefault();
@@ -27,7 +30,7 @@ const ProcessOrder = ({ history, match }) => {
 
     myForm.set("status", status);
 
-    dispatch(updateOrder(match.params.id, myForm));
+    dispatch(updateOrder(id, myForm));
   };
 
   const dispatch = useDispatch();
@@ -49,8 +52,8 @@ const ProcessOrder = ({ history, match }) => {
       dispatch({ type: UPDATE_ORDER_RESET });
     }
 
-    dispatch(getOrderDetails(match.params.id));
-  }, [dispatch, alert, error, match.params.id, isUpdated, updateError]);
+    dispatch(getOrderDetails(id));
+  }, [dispatch, alert, error, id, isUpdated, updateError]);
 
   return (
     <Fragment>
@@ -96,13 +99,13 @@ const ProcessOrder = ({ history, match }) => {
                       <p
                         className={
                           order.paymentInfo &&
-                          order.paymentInfo.status === "succeeded"
+                            order.paymentInfo.status === "succeeded"
                             ? "greenColor"
                             : "redColor"
                         }
                       >
                         {order.paymentInfo &&
-                        order.paymentInfo.status === "succeeded"
+                          order.paymentInfo.status === "succeeded"
                           ? "PAID"
                           : "NOT PAID"}
                       </p>

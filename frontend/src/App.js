@@ -33,14 +33,14 @@ import Dashboard from "./component/Admin/Dashboard.js"
 import ProductList from "./component/Admin/ProductList.js"
 import NewProduct from "./component/Admin/NewProduct"
 import UpdateProduct from "./component/Admin/UpdateProduct"
-// import OrderList from "./component/Admin/OrderList"
-// import ProcessOrder from "./component/Admin/ProcessOrder"
-// import UsersList from "./component/Admin/UsersList"
-// import UpdateUser from "./component/Admin/UpdateUser"
-// import ProductReviews from "./component/Admin/ProductReviews"
-// import Contact from "./component/layout/Contact/Contact"
-// import About from "./component/layout/About/About"
-// import NotFound from "./component/layout/Not Found/NotFound"
+import OrderList from "./component/Admin/OrderList"
+import ProcessOrder from "./component/Admin/ProcessOrder"
+import UsersList from "./component/Admin/UsersList"
+import UpdateUser from "./component/Admin/UpdateUser"
+import ProductReviews from "./component/Admin/ProductReviews"
+import Contact from "./component/layout/Contact/Contact"
+import About from "./component/layout/About/About"
+import NotFound from "./component/layout/Not Found/NotFound"
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -60,7 +60,7 @@ function App() {
     getStripeApiKey()
   }, [])
 
-  // window.addEventListener("contextmenu", (e) => e.preventDefault());
+  window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   return (
     <>
@@ -76,6 +76,10 @@ function App() {
           </Elements>
         )}
         <Routes>
+
+          <Route exact path="/contact" element={<Contact />} />
+          <Route exact path="/about" element={<About />} />
+
           <Route exact path="/login" element={<LoginSignUp />} />
           <Route exact path='/search' element={<Search />} />
           <Route exact path='/products' element={<Products />} />
@@ -123,6 +127,41 @@ function App() {
             element={<ProtectedRoute component={UpdateProduct} />}
           />
 
+          <Route
+            isAdmin={true}
+            exact path="/admin/orders"
+            element={<ProtectedRoute component={OrderList} />}
+          />
+
+          <Route
+            isAdmin={true}
+            exact path="/admin/order/:id"
+            element={<ProtectedRoute component={ProcessOrder} />}
+          />
+
+          <Route
+            isAdmin={true}
+            exact path="/admin/users"
+            element={<ProtectedRoute component={UsersList} />}
+          />
+
+          <Route
+            isAdmin={true}
+            exact path="/admin/user/:id"
+            element={<ProtectedRoute component={UpdateUser} />}
+          />
+
+          <Route
+            isAdmin={true}
+            exact path="/admin/reviews"
+            element={<ProtectedRoute component={ProductReviews} />}
+          />
+
+          <Route
+            component={
+              window.location.pathname === "/process/payment" ? null : NotFound
+            }
+          />
 
 
           <Route exact path='/' element={<Home />} />

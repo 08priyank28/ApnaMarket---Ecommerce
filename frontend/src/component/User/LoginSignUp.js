@@ -80,7 +80,7 @@ const LoginSignUp = () => {
         }
 
         if (isAuthenticated) {
-            navigate('/shipping');
+            navigate(redirect);
         }
     }, [dispatch, error, alert, isAuthenticated, location, redirect, navigate]);
 
