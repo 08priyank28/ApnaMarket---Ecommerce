@@ -88,6 +88,7 @@ const UpdateProduct = ({ history, match }) => {
     productId,
     product,
     updateError,
+    navigate
   ]);
 
   const updateProductSubmitHandler = (e) => {
@@ -228,7 +229,7 @@ const UpdateProduct = ({ history, match }) => {
               type="submit"
               disabled={loading ? true : false}
             >
-              Update 
+              Update
             </Button>
           </form>
         </div>

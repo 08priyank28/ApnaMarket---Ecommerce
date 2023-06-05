@@ -39,6 +39,13 @@ const NewProduct = () => {
     "SmartPhones",
   ];
 
+  // const categories = [
+  //   "Suspense",
+  //   "Love Stories",
+  //   "Action",
+  //   "Fantasy",
+  // ];
+
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -50,7 +57,7 @@ const NewProduct = () => {
       navigate("/admin/dashboard");
       dispatch({ type: NEW_PRODUCT_RESET });
     }
-  }, [dispatch, alert, error, success]);
+  }, [dispatch, alert, error, success, navigate]);
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();

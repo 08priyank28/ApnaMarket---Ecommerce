@@ -21,6 +21,13 @@ const categories = [
     "SmartPhones",
 ];
 
+// const categories = [
+//     "Suspense",
+//     "Love Stories",
+//     "Action",
+//     "Fantasy",
+// ];
+
 
 const Products = () => {
 

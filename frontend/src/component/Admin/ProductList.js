@@ -50,7 +50,7 @@ const ProductList = () => {
     }
 
     dispatch(getAdminProduct());
-  }, [dispatch, alert, error, deleteError, isDeleted]);
+  }, [dispatch, alert, error, deleteError, isDeleted,navigate]);
 
   const columns = [
     { field: "id", headerName: "Product ID", minWidth: 200, flex: 0.5 },
